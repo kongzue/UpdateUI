@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="updateUIGreen">#2aa515</color>
+    <color name="updateUIBlue">#4a98da</color>
+    <color name="updateUIBackground">#f2f2f2</color>
+    <color name="updateUIButtonNormal">#0c000000</color>
+    <color name="updateUIButtonPress">#15000000</color>
+</resources>

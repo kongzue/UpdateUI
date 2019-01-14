@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/box_updateUI_allViews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/img_update_ui_bkg">
+
+        <LinearLayout
+            android:id="@+id/sys_statusBar"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/box_updateUI_Simple"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/img_update_ui_update_ico" />
+
+            <TextView
+                android:id="@+id/txt_updateUI_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="有新版本可用"
+                android:textColor="@color/updateUIGreen"
+                android:textSize="16dp" />
+
+            <ProgressBar
+                android:id="@+id/progress_updateUI"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:visibility="gone"
+                android:progressDrawable="@drawable/progress_bar_update_ui"
+                android:max="100"
+                android:progress="0"
+                style="?android:attr/progressBarStyleHorizontal"/>
+
+            <TextView
+                android:id="@+id/btn_updateUI_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:singleLine="true"
+                android:text="查看详情"
+                android:textColor="@color/updateUIBlue"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/btn_updateUI_install"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:singleLine="true"
+                android:text="立即安装"
+                android:visibility="gone"
+                android:textColor="@color/updateUIBlue"
+                android:textSize="14dp" />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_updateUI_more"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="-10dp"
+            android:visibility="gone"
+            android:src="@mipmap/img_update_ui_more"/>
+
+        <LinearLayout
+            android:id="@+id/box_updateUI_more"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_updateUI_logs"
+                android:layout_width="match_parent"
+                android:paddingLeft="25dp"
+                android:layout_marginBottom="5dp"
+                android:paddingRight="25dp"
+                android:text="- 这里是一些更新日志...\n- 这里是一些更新日志...\n- 这里是一些更新日志..."
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/btn_updateUI_updateNow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/button_update_ui_button"
+                android:textColor="@color/updateUIBlue"
+                android:clickable="true"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:text="立即更新" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
