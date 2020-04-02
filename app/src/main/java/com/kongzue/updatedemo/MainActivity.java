@@ -26,6 +26,7 @@ public class MainActivity extends BaseActivity {
     
     @Override
     public void initDatas(JumpParameter paramer) {
+        UpdateUI.darkMode = false;
         updateUI = new UpdateUI();
         updateUI.setOnUpdateUIEventListener(new OnUpdateUIEventListener() {
             @Override
@@ -40,26 +41,32 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void run() {
                         updateUI.setProgress(50);
+                        runOnMainDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                updateUI.readyInstall();
+                            }
+                        }, 1000);
                     }
-                }, 5000);
+                }, 1000);
             }
             
             @Override
             public void onIgnore(int status) {
                 log("onIgnore:" + status);
-                if (status == UpdateUI.STATUS_PROGRESSING) {
-                    //正在下载的状态时产生的忽略
-                    runOnMainDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateUI.readyInstall();
-                            updateUI.showUpdateUI(me);
-                        }
-                    }, 5000);
-                }
-                if (status == UpdateUI.STATUS_FINISH) {
-                    //完成后产生的忽略操作
-                }
+                //if (status == UpdateUI.STATUS_PROGRESSING) {
+                //    //正在下载的状态时产生的忽略
+                //    runOnMainDelayed(new Runnable() {
+                //        @Override
+                //        public void run() {
+                //            updateUI.readyInstall();
+                //            updateUI.showUpdateUI(me);
+                //        }
+                //    }, 2000);
+                //}
+                //if (status == UpdateUI.STATUS_FINISH) {
+                //    //完成后产生的忽略操作
+                //}
             }
             
             @Override
@@ -79,5 +86,13 @@ public class MainActivity extends BaseActivity {
     @Override
     public void setEvents() {
     
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (updateUI != null) {
+            updateUI.dismiss();
+        }
     }
 }

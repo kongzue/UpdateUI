@@ -5,4 +5,7 @@
     <color name="updateUIBackground">#f2f2f2</color>
     <color name="updateUIButtonNormal">#0c000000</color>
     <color name="updateUIButtonPress">#15000000</color>
+
+    <color name="updateUIButtonNormalDark">#1AFFFFFF</color>
+    <color name="updateUIButtonPressDark">#33FFFFFF</color>
 </resources>

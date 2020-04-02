@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.kongzue.updateui.interfaces.OnUpdateUIEventListener;
 import com.kongzue.updateui.util.ViewWrapper;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -48,9 +49,10 @@ public class UpdateUI {
     public static String buttonUpdateNow = "立即更新";
     public static String txtUpdateLogs = "- 这里是一些更新日志...\n- 这里是一些更新日志...\n- 这里是一些更新日志...";
     public static String buttonInstallNow = "立即安装";
+    public static boolean darkMode = false;                             //暗色模式
     
     private PopupWindow window;
-    private Activity activity;
+    private WeakReference<Activity> activity;
     private View rootView;
     
     private OnUpdateUIEventListener onUpdateUIEventListener;            //事件监听器
@@ -90,9 +92,9 @@ public class UpdateUI {
     
     public void showUpdateUI(Activity a) {
         dismiss();
-        activity = a;
+        activity = new WeakReference<>(a);
         
-        rootView = LayoutInflater.from(activity).inflate(R.layout.layout_update_ui, null, false);
+        rootView = LayoutInflater.from(activity.get()).inflate(R.layout.layout_update_ui, null, false);
         
         //绑定组件
         bindChildViews(rootView);
@@ -138,7 +140,7 @@ public class UpdateUI {
             sysStatusBar.setLayoutParams(params);
         }
         
-        window.showAtLocation(activity.getWindow().getDecorView(), Gravity.TOP, 0, 0);
+        window.showAtLocation(activity.get().getWindow().getDecorView(), Gravity.TOP, 0, 0);
         
         switch (status) {
             case STATUS_PROGRESSING:
@@ -154,6 +156,13 @@ public class UpdateUI {
         }
         
         if (onUpdateUIEventListener != null) onUpdateUIEventListener.onShow(status);
+        
+        if (darkMode) {
+            boxUpdateUIAllViews.setBackgroundResource(R.drawable.img_update_ui_bkg_dark);
+            txtUpdateUILogs.setTextColor(Color.WHITE);
+            btnUpdateUIUpdateNow.setBackgroundResource(R.drawable.button_update_ui_button_dark);
+            progressUpdateUI.setProgressDrawable(activity.get().getResources().getDrawable(R.drawable.progress_bar_update_ui_dark));
+        }
         
         setEvents();
     }
@@ -274,9 +283,9 @@ public class UpdateUI {
                 
                 final ViewWrapper boxUpdateUIAllViewViewWrapper = new ViewWrapper(boxUpdateUIAllViews);
                 moveAnimation(boxUpdateUIAllViewViewWrapper, "height",
-                              simpleHeight,
-                              simpleHeight + moreHeight,
-                              500, 0
+                        simpleHeight,
+                        simpleHeight + moreHeight,
+                        300, 0
                 );
                 boxUpdateUIMore.setVisibility(View.VISIBLE);
                 
@@ -287,16 +296,16 @@ public class UpdateUI {
                     public void run() {
                         boxUpdateUIAllViewViewWrapper.setHeight(simpleHeight + moreHeight);
                     }
-                }, 500);
+                }, 300);
             }
             if (status < STATUS_PROGRESSING) status = STATUS_BEFORE_UPDATE_LOGS;
         } else {
             boxUpdateUIMore.setVisibility(View.GONE);
             final ViewWrapper boxUpdateUIAllViewViewWrapper = new ViewWrapper(boxUpdateUIAllViews);
             moveAnimation(boxUpdateUIAllViewViewWrapper, "height",
-                          simpleHeight + moreHeight,
-                          simpleHeight,
-                          500, 0
+                    simpleHeight + moreHeight,
+                    simpleHeight,
+                    300, 0
             );
             mainHandler.postDelayed(new Runnable() {
                 @Override
@@ -304,7 +313,7 @@ public class UpdateUI {
                     boxUpdateUIAllViewViewWrapper.setHeight(simpleHeight);
                     new ViewWrapper(window.getContentView()).setHeight(simpleHeight + dip2px(60));
                 }
-            }, 500);
+            }, 300);
             if (status < STATUS_PROGRESSING) status = STATUS_BEFORE_UPDATE;
         }
     }
@@ -315,7 +324,7 @@ public class UpdateUI {
             Object obj = c.newInstance();
             Field field = c.getField("status_bar_height");
             int x = Integer.parseInt(field.get(obj).toString());
-            return activity.getResources().getDimensionPixelSize(x);
+            return activity.get().getResources().getDimensionPixelSize(x);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -323,7 +332,7 @@ public class UpdateUI {
     }
     
     private int dip2px(float dpValue) {
-        final float scale = activity.getResources().getDisplayMetrics().density;
+        final float scale = activity.get().getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
     

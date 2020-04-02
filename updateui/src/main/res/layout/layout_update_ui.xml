@@ -24,7 +24,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:paddingRight="5dp">
 
             <ImageView
                 android:layout_width="30dp"
@@ -57,8 +57,9 @@
             <TextView
                 android:id="@+id/btn_updateUI_details"
                 android:layout_width="wrap_content"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="10dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:singleLine="true"
                 android:text="查看详情"
                 android:textColor="@color/updateUIBlue"
@@ -68,7 +69,8 @@
                 android:id="@+id/btn_updateUI_install"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="10dp"
                 android:singleLine="true"
                 android:text="立即安装"
                 android:visibility="gone"
