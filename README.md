@@ -1,5 +1,5 @@
 # Kongzue UpdateUI
-使用 PopupWindow 为基础构建非打饶式更新提醒组件
+使用 PopupWindow 为基础构建非打扰式更新提醒组件
 
 <a href="https://github.com/kongzue/UpdateUI">
 <img src="https://img.shields.io/badge/Kongzue%UpdateUI-1.0.3-green.svg" alt="Kongzue UpdateUI">
