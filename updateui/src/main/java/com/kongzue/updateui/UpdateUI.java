@@ -86,8 +86,6 @@ public class UpdateUI {
         boxUpdateUIMore = rootView.findViewById(R.id.box_updateUI_more);
         txtUpdateUILogs = rootView.findViewById(R.id.txt_updateUI_logs);
         btnUpdateUIUpdateNow = rootView.findViewById(R.id.btn_updateUI_updateNow);
-        
-        moreHeight = measureHeight(boxUpdateUIMore);
     }
     
     public void showUpdateUI(Activity a) {
@@ -104,6 +102,8 @@ public class UpdateUI {
         btnUpdateUIUpdateNow.setText(buttonUpdateNow);
         txtUpdateUILogs.setText(txtUpdateLogs);
         btnUpdateUIInstall.setText(buttonInstallNow);
+        
+        moreHeight = measureHeight(boxUpdateUIMore);
         
         //初始化
         window = new PopupWindow(rootView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

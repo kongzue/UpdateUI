@@ -2,10 +2,10 @@
 使用 PopupWindow 为基础构建非打扰式更新提醒组件
 
 <a href="https://github.com/kongzue/UpdateUI">
-<img src="https://img.shields.io/badge/Kongzue%UpdateUI-1.0.3-green.svg" alt="Kongzue UpdateUI">
+<img src="https://img.shields.io/badge/Kongzue%UpdateUI-1.0.4-green.svg" alt="Kongzue UpdateUI">
 </a> 
-<a href="https://bintray.com/myzchh/maven/UpdateUI/1.0.3/link">
-<img src="https://img.shields.io/badge/Maven-1.0.3-blue.svg" alt="Maven">
+<a href="https://bintray.com/myzchh/maven/UpdateUI/1.0.4/link">
+<img src="https://img.shields.io/badge/Maven-1.0.4-blue.svg" alt="Maven">
 </a> 
 <a href="http://www.apache.org/licenses/LICENSE-2.0">
 <img src="https://img.shields.io/badge/License-Apache%202.0-red.svg" alt="License">
@@ -29,14 +29,14 @@ Maven仓库：
 <dependency>
   <groupId>com.kongzue.updateui</groupId>
   <artifactId>updateui</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
   <type>pom</type>
 </dependency>
 ```
 Gradle：
 在dependencies{}中添加引用：
 ```
-implementation 'com.kongzue.updateui:updateui:1.0.3'
+implementation 'com.kongzue.updateui:updateui:1.0.4'
 ```
 
 在代码中构建：
@@ -137,4 +137,5 @@ limitations under the License.
 ```
 
 ## 更新日志：
-暂无
+v1.0.4
+- 修复日志高度没有正确计算的bug；

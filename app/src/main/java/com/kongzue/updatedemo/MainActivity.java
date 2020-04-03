@@ -27,6 +27,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initDatas(JumpParameter paramer) {
         UpdateUI.darkMode = false;
+        UpdateUI.txtUpdateLogs="-\n-\n-\n-\n-\n-\n";
         updateUI = new UpdateUI();
         updateUI.setOnUpdateUIEventListener(new OnUpdateUIEventListener() {
             @Override
