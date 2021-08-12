@@ -2,17 +2,21 @@ package com.kongzue.updateui;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -26,6 +30,8 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
 
 /**
  * Author: @Kongzue
@@ -103,13 +109,20 @@ public class UpdateUI {
         txtUpdateUILogs.setText(txtUpdateLogs);
         btnUpdateUIInstall.setText(buttonInstallNow);
         
-        moreHeight = measureHeight(boxUpdateUIMore);
+        boxUpdateUIAllViews.post(new Runnable() {
+            @Override
+            public void run() {
+                simpleHeight = measureHeight(boxUpdateUIAllViews);
+            }
+        });
         
         //初始化
         window = new PopupWindow(rootView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         window.setOutsideTouchable(false);
         window.setTouchable(true);
+        window.setClippingEnabled(false);
+        
         window.setAnimationStyle(R.style.popwin_anim_style);
         
         window.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -269,34 +282,56 @@ public class UpdateUI {
     
     private boolean openMoreEnable = true;
     
+    private Runnable runnable;
+    
     private void showDetails(boolean visible) {
         if (visible) {
             if (!openMoreEnable) {
                 return;
             }
-            if (imgUpdateUIMore.getVisibility() == View.VISIBLE)
-                imgUpdateUIMore.setVisibility(View.GONE);
             btnUpdateUIDetails.setVisibility(View.GONE);
             if (boxUpdateUIMore.getVisibility() == View.GONE) {
-                
-                simpleHeight = measureHeight(boxUpdateUIAllViews);
-                
-                final ViewWrapper boxUpdateUIAllViewViewWrapper = new ViewWrapper(boxUpdateUIAllViews);
-                moveAnimation(boxUpdateUIAllViewViewWrapper, "height",
-                        simpleHeight,
-                        simpleHeight + moreHeight,
-                        300, 0
-                );
                 boxUpdateUIMore.setVisibility(View.VISIBLE);
                 
-                new ViewWrapper(window.getContentView()).setHeight(simpleHeight + moreHeight + dip2px(60));
+                measureHeight(txtUpdateUILogs);
                 
-                mainHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        boxUpdateUIAllViewViewWrapper.setHeight(simpleHeight + moreHeight);
-                    }
-                }, 300);
+                if (moreHeight == 0) {
+                    txtUpdateUILogs.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            int height = getTextViewHeight(txtUpdateUILogs);
+                            new ViewWrapper(txtUpdateUILogs).setHeight(height);
+                            
+                            boxUpdateUIMore.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    boxUpdateUIMore.setAlpha(1f);
+                                    moreHeight = measureHeight(boxUpdateUIMore);
+    
+                                    final ViewWrapper boxUpdateUIAllViewViewWrapper = new ViewWrapper(boxUpdateUIAllViews);
+                                    moveAnimation(boxUpdateUIAllViewViewWrapper, "height",
+                                            simpleHeight,
+                                            simpleHeight + moreHeight,
+                                            300, 0
+                                    );
+                                    
+                                    new ViewWrapper(window.getContentView()).setHeight(simpleHeight + moreHeight + dip2px(60));
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    boxUpdateUIMore.setAlpha(1f);
+                    final ViewWrapper boxUpdateUIAllViewViewWrapper = new ViewWrapper(boxUpdateUIAllViews);
+                    moveAnimation(boxUpdateUIAllViewViewWrapper, "height",
+                            simpleHeight,
+                            simpleHeight + moreHeight,
+                            300, 0
+                    );
+                    
+                    new ViewWrapper(window.getContentView()).setHeight(simpleHeight + moreHeight + dip2px(60));
+                }
+                
             }
             if (status < STATUS_PROGRESSING) status = STATUS_BEFORE_UPDATE_LOGS;
         } else {
@@ -320,11 +355,10 @@ public class UpdateUI {
     
     private int getStatusBarHeight() {
         try {
-            Class<?> c = Class.forName("com.android.internal.R$dimen");
-            Object obj = c.newInstance();
-            Field field = c.getField("status_bar_height");
-            int x = Integer.parseInt(field.get(obj).toString());
-            return activity.get().getResources().getDimensionPixelSize(x);
+            Resources resources = activity.get().getResources();
+            int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+            int height = resources.getDimensionPixelSize(resourceId);
+            return height;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -352,6 +386,13 @@ public class UpdateUI {
         int height = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         v.measure(width, height);
         return v.getMeasuredHeight();
+    }
+    
+    private int getTextViewHeight(TextView pTextView) {
+        Layout layout = pTextView.getLayout();
+        int desired = layout.getLineTop(pTextView.getLineCount());
+        int padding = pTextView.getCompoundPaddingTop() + pTextView.getCompoundPaddingBottom();
+        return desired + padding;
     }
     
     public void dismiss() {

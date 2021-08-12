@@ -27,6 +27,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initDatas(JumpParameter paramer) {
         UpdateUI.darkMode = false;
+        UpdateUI.txtUpdateLogs="- 新增 618“冤枉钱”账本，可以把任何账目标记为“冤枉钱”，并在冤枉钱账本中追溯你认为购买的不值/不好/没用的消费；\n- 修复 部分情况可能引发的错误显示或闪退问题；\n- 新增 618“冤枉钱”账本，可以把任何账目标记为“冤枉钱”，并在冤枉钱账本中追溯你认为购买的不值/不好/没用的消费；\n- 修复 部分情况可能引发的错误显示或闪退问题；";
+        
         updateUI = new UpdateUI();
         updateUI.setOnUpdateUIEventListener(new OnUpdateUIEventListener() {
             @Override
