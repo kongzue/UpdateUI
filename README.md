@@ -16,14 +16,38 @@
 
 ![Kongzue UpdateUI](https://github.com/kongzue/Res/raw/master/app/src/main/res/mipmap-xxxhdpi/img_update_demo.png)
 
-### Kongzue UpdateUI 是什么
+## Kongzue UpdateUI 是什么
 · UpdateUI可以为您提供非打扰式的更新提示、更新过程以及下载完成三步界面；
 
 · 这个框架是一个 UI 框架，并不包含更新或安装功能，要使用更新功能请移步 https://github.com/kongzue/KongzueUpdateSDK
 
 · 提供亮色和暗色两种可选样式，方便实现更新 UI 逻辑。
 
-### 开始使用
+## 开始使用
+
+### jitpack
+
+最新版本：
+
+[![](https://jitpack.io/v/kongzue/UpdateUI.svg)](https://jitpack.io/#kongzue/UpdateUI)
+
+1. 进入 build.gradle(project) 引入 jitpack 仓库：
+```
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+2. 进入 build.gradle(app) 引入 UpdateUI：
+
+```
+implementation 'com.github.kongzue:UpdateUI:1.0.4.3'
+```
+
+### jCenter（已废弃）
 Maven仓库：
 ```
 <dependency>
@@ -57,7 +81,7 @@ protected void onDestroy() {
 }
 ```
 
-### 预配置
+## 预配置
 修改默认提示文案
 ```
 UpdateUI.beforeUpdateTitle = "有新版本可用";
